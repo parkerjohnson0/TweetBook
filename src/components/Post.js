@@ -47,7 +47,7 @@ function Post(props)
     {
         return (
             <div className="flex content-center justify-center" style={{position:"relative",left:`${props.offset*2}px`,width:`${width }px`}}>
-            <ReplyBox offset={props.offset} isNewPostVisible={!isNewPostVisible} isReplying={isReplying} fixedBox={false} />
+            <ReplyBox userLoggedIn={props.userLoggedIn} offset={props.offset} isNewPostVisible={!isNewPostVisible} isReplying={isReplying} fixedBox={false} />
 
             </div>
         )
@@ -96,7 +96,7 @@ function Post(props)
                 && props.post.Comments.map((post, idx) =>
                 {
                     return (
-                        <Post replyingPost={props.replyingPost} setIsNewPostVisible={props.setIsNewPostVisible}
+                        <Post userLoggedIn={props.userLoggedIn} replyingPost={props.replyingPost} setIsNewPostVisible={props.setIsNewPostVisible}
                             updateReplying={props.updateReplying}
                             z={props.z + 1} key={post.PostId} post={post} offset={props.offset + 25} />
                     

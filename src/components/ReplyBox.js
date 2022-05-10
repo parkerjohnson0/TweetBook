@@ -36,7 +36,7 @@ function ReplyBox(props)
                     w-full z-100 h-48 bg-sky-400 rounded-lg"
                     style={{}}>
                     <div className="pt-8">
-                        <Avatar />
+                        <Avatar username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
                     </div>
                     <div>
                        <div className="p-8 relative">
