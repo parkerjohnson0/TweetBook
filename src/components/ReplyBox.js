@@ -1,8 +1,25 @@
 import { React, useState } from 'react';
 import Avatar from "./Avatar";
 import PostButton from "./PostButton"
+import CharacterCount from "./CharacterCount"
 function ReplyBox(props)
 {
+    const [getCurrReply, setCurrReply] = useState("");
+    const [countAnimate, setCountAnimate] = useState(false);
+    const updateReply = (e) =>{
+        setCurrReply(e.target.value);
+    }
+    const animationListener = () =>{
+        if (getCurrReply.length >= 140){
+            setCountAnimate(true);
+        }
+    }
+    const unregisterAnimation = ()=>{
+        if (getCurrReply.length >= 140){
+            setCountAnimate(false);
+        }
+
+    }
     const checkIfReplying = () =>
     {
         if (props.isNewPostVisible)
@@ -15,8 +32,11 @@ function ReplyBox(props)
                     </div>
                     <div>
                        <div className="pt-8">
-                            <textarea rows="4" cols="35">
-                            </textarea>
+                           <div>
+                                <textarea maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
+                                </textarea>
+                               <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>
+                           </div>
                            <div className="absolute bottom--1 right-8" >
                                <PostButton/>
                            </div>
@@ -27,12 +47,12 @@ function ReplyBox(props)
         }
         else if (props.fixedBox && !props.isNewPostVisible)
         {
-            return 
+            return
         }
         else if (!props.fixedBox && props.isReplying)
         {
             return (
-                <div className="flex align-items justify-center relative 
+                <div className="flex align-items justify-center relative
                     w-full z-100 h-48 bg-sky-400 rounded-lg"
                     style={{}}>
                     <div className="pt-8">
@@ -40,9 +60,12 @@ function ReplyBox(props)
                     </div>
                     <div>
                        <div className="p-8 relative">
-                            <textarea rows="4" cols="35">
-                            </textarea>
-                           <div className="absolute bottom--1 right-6">
+                           <div>
+                                <textarea maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
+                                </textarea>
+                               <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>
+                           </div>
+                           <div className="absolute bottom--1 right-8" >
                                <PostButton/>
                            </div>
                         </div>

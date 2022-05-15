@@ -32,10 +32,10 @@ function Post(props)
             setIsReplying(false);
             props.updateReplying(false, post.PostId);
             props.setIsNewPostVisible(true);
-  
+
         }
         setIsExpanded(!isExpanded);
-        
+
     }
     const replyClicked = () =>
     {
@@ -89,7 +89,7 @@ function Post(props)
             </div>
             {replyCheck()
                 && latchReplyBox()
-                
+
             }
 
             {isExpanded
@@ -99,16 +99,16 @@ function Post(props)
                         <Post userLoggedIn={props.userLoggedIn} replyingPost={props.replyingPost} setIsNewPostVisible={props.setIsNewPostVisible}
                             updateReplying={props.updateReplying}
                             z={props.z + 1} key={post.PostId} post={post} offset={props.offset + 25} />
-                    
-                            
+
+
                     )
                 })
             }
 
- 
+
         </div>
 
-        
+
     )
 }
 export default Post;
