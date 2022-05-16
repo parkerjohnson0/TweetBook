@@ -13,6 +13,11 @@ namespace TweetBookAPI
            var users = await Queries.GetUsers();
            return users;
         }
+        [HttpPost]
+        public int Login()
+        {
+            return 0;
+        }
 
     }
 }

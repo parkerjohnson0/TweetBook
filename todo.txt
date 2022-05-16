@@ -1,0 +1,7 @@
+frontend 
+	make loading progess bar
+	make replybox unsnap from attached post if scoll off screen
+	maybe give replybox an X icon somehow if it's attached
+backend
+	everything
+	figure out logins

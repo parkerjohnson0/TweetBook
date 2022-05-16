@@ -10,3 +10,15 @@
 /home/parker/Documents/Code/TweetBook/API/DataAccess/obj/Debug/net6.0/refint/DataAccess.dll
 /home/parker/Documents/Code/TweetBook/API/DataAccess/obj/Debug/net6.0/DataAccess.pdb
 /home/parker/Documents/Code/TweetBook/API/DataAccess/obj/Debug/net6.0/ref/DataAccess.dll
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\bin\Debug\net6.0\DataAccess.deps.json
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\bin\Debug\net6.0\DataAccess.dll
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\bin\Debug\net6.0\DataAccess.pdb
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\obj\Debug\net6.0\DataAccess.csproj.AssemblyReference.cache
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\obj\Debug\net6.0\DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\obj\Debug\net6.0\DataAccess.AssemblyInfoInputs.cache
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\obj\Debug\net6.0\DataAccess.AssemblyInfo.cs
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\obj\Debug\net6.0\DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\obj\Debug\net6.0\DataAccess.dll
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\obj\Debug\net6.0\refint\DataAccess.dll
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\obj\Debug\net6.0\DataAccess.pdb
+C:\Users\peppe\Documents\code-stuff\TweetBook\API\DataAccess\obj\Debug\net6.0\ref\DataAccess.dll

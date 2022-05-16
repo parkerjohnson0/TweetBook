@@ -8,13 +8,15 @@ namespace TweetBookAPI
     public class PostController : Controller
     {
         [HttpGet]
-        public async Task<List<Post>> Get()
+        [ActionName("GetAll")]
+        public async Task<List<Post>> GetAll()
         {
            var posts = await Queries.GetPosts();
            return posts;
         }
         [HttpGet]
-        public async Task<List<Post>> Get(int id)
+        [ActionName("GetById")]
+        public async Task<List<Post>> GetById(int id)
         {
            var posts = await Queries.GetPosts(id);
            return posts;

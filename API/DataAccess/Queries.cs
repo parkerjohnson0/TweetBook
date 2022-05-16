@@ -33,6 +33,15 @@ namespace DataAccess
           }
           return posts.ToList();
         }
+        public async static Task<int>  LoginUser(string username, string password)
+        {
+            var sql = $"CALL sp_CheckLogin({username},{password})";
+            using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
+            {
+                return await connection.QuerySingleAsync<int>(sql);
+            }
+
+        }
 
     }
 }

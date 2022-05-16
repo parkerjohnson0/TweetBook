@@ -28,16 +28,16 @@ function ReplyBox(props)
                 <div className="flex fixed bottom-16 z-100 h-48 bg-sky-400 rounded-lg"
                     style={{ width: "600px" }}>
                     <div className="p-8">
-                        <Avatar username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
+                        <Avatar blurAndShowLoading={props.blurAndShowLoading} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
                     </div>
                     <div>
-                       <div className="pt-8">
+                       <div className="pt-8 relative">
                            <div>
                                 <textarea maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
                                 </textarea>
                                <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>
                            </div>
-                           <div className="absolute bottom--1 right-8" >
+                           <div className="absolute bottom--1 right-1" >
                                <PostButton/>
                            </div>
                         </div>
