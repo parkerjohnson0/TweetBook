@@ -4,7 +4,7 @@ using DataAccess;
 using System.Linq;
 namespace TweetBookAPI
 {
-    [Route("post")]
+    [Route("posts")]
     public class PostController : Controller
     {
         [HttpGet]

@@ -6,8 +6,22 @@ function ReplyBox(props)
 {
     const [getCurrReply, setCurrReply] = useState("");
     const [countAnimate, setCountAnimate] = useState(false);
-    const makePost = () => {
-        console.log("posting")
+    const makePost = async () => {
+        console.log(props.parentPostID)
+        let post = {
+            "ParentPostID" : props.parentPostID,
+            "Username" : props.userLoggedIn.Username,
+            "Content" : getCurrReply,
+            "Avatar" : props.userLoggedIn.Avatar
+        }
+        const response = await fetch("https://localhost:7073/posts",{
+            method : "POST",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(post)
+        })
+
     }
     const updateReply = (e) =>{
         setCurrReply(e.target.value);

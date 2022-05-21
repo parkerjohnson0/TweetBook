@@ -11,16 +11,16 @@ namespace DataAccess
         public async static Task<List<User>> GetUsers(){
           var sql = "select * FROM Users;";
           IEnumerable<User> users = new List<User>();
-          using (IDbConnection connection = new SqlConnection(Config.CONNECTION_STRING)){
+          using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING)){
                 users = await connection.QueryAsync<User>(sql);
           }
           return users.ToList();
         }
         public async static Task<List<Post>> GetPosts(){
-            var sql = "select * FROM Post;";
+            var sql = "select * FROM Posts;";
             IEnumerable<Post> posts = new List<Post>();
 
-          using (IDbConnection connection = new SqlConnection(Config.CONNECTION_STRING)){
+          using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING)){
                 posts = await connection.QueryAsync<Post>(sql);
           }
         IEnumerable<Post> parentPosts = posts.Where(x => x.ParentPostID == null);
@@ -34,7 +34,7 @@ namespace DataAccess
             var sql = $"select * FROM Posts where @{id} = PostID AND @{id} = ParentPostID;";
             IEnumerable<Post> posts = new List<Post>();
 
-          using (IDbConnection connection = new SqlConnection(Config.CONNECTION_STRING)){
+          using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING)){
                 posts = await connection.QueryAsync<Post>(sql);
           }
             IEnumerable<Post> parentPosts = posts.Where(x => x.ParentPostID == null);
@@ -46,8 +46,8 @@ namespace DataAccess
         }
         public async static Task<int>  LoginUser(string username, string password)
         {
-            var sql = $"EXEC sp_CheckLogin({username},{password})";
-            using (IDbConnection connection = new SqlConnection(Config.CONNECTION_STRING))
+            var sql = $"CALL sp_CheckLogin({username},{password})";
+            using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {
                 return await connection.QuerySingleAsync<int>(sql);
             }
@@ -55,8 +55,8 @@ namespace DataAccess
         }
         public async static Task<int> RegisterUser(string username, string password)
         {
-            var sql = $"EXEC sp_RegisterUser '{username}','{password}';" ;
-            using (IDbConnection connection = new SqlConnection(Config.CONNECTION_STRING))
+            var sql = $"CALL sp_RegisterUser ('{username}','{password}');" ;
+            using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {
                 return await connection.QuerySingleAsync<int>(sql);
             }
@@ -64,8 +64,11 @@ namespace DataAccess
         }
         public async static Task MakePost(Post post)
         {
-            var sql = $"EXEC sp_MakePost '{post.ParentPostID}','{post.Content}', '{post.Avatar}', '{post.TimePosted}','{post.Username}';";
-            using (IDbConnection connection = new SqlConnection(Config.CONNECTION_STRING))
+            string parentID = post.ParentPostID == null ? "null" : "'" + post.ParentPostID.ToString() + "'";
+            //Console.WriteLine(post.Avatar, post.Content,post.PostID, parentID);
+            var sql = $"CALL sp_InsertPost ({parentID},'{post.Username}','{post.Content}','{post.Avatar}');";
+            Console.WriteLine(sql);
+            using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {
                 await connection.ExecuteAsync(sql);
             }

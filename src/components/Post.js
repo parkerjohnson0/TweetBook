@@ -47,7 +47,7 @@ function Post(props)
     {
         return (
             <div className="flex content-center justify-center" style={{position:"relative",left:`${props.offset*2}px`,width:`${width }px`}}>
-            <ReplyBox parentPostID={post.PostId} userLoggedIn={props.userLoggedIn} offset={props.offset} 
+            <ReplyBox parentPostID={post.postID} userLoggedIn={props.userLoggedIn} offset={props.offset}
             isNewPostVisible={!isNewPostVisible} isReplying={isReplying} fixedBox={false} />
 
             </div>

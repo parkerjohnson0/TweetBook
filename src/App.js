@@ -32,7 +32,7 @@ function App()
   {
     setInterval(() =>
     {
-      const response = fetch("https://localhost:7073/post")
+      const response = fetch("https://localhost:7073/posts")
       .then(response => response.json())
       .then(posts => setPosts(posts))
     },1000)
@@ -70,7 +70,7 @@ function App()
       <div className={blurStyle}>
       {posts.map((post) =>
       {
-        return <Post userLoggedIn={userLoggedIn} replyingPost={postReplyId} setIsNewPostVisible={setIsNewPostVisible} updateReplying={updateReplying} z={100} top={0} key={post.PostId} post={post} offset={0}/>
+        return <Post userLoggedIn={userLoggedIn} replyingPost={postReplyId} setIsNewPostVisible={setIsNewPostVisible} updateReplying={updateReplying} z={100} top={0} key={post.postId} post={post} offset={0}/>
       })}
       </div>
       {!shouldShowLogin() && isNewPostVisible && <ReplyBox parentPostID={null} blurAndShowLoading={blurAndShowLoading} userLoggedIn={userLoggedIn} isNewPostVisible={isNewPostVisible} isReplying={isReplying} fixedBox={true} />}
