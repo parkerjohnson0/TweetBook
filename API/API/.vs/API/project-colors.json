@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "83196d2f-3390-4eb3-bede-0e313e875a37": {
+      "ProjectGuid": "83196d2f-3390-4eb3-bede-0e313e875a37",
+      "DisplayName": "TweetBookAPI",
+      "ColorIndex": 0
+    },
+    "20311b71-071c-4997-8f78-b37e17f8471a": {
+      "ProjectGuid": "20311b71-071c-4997-8f78-b37e17f8471a",
+      "DisplayName": "DataAccess",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}

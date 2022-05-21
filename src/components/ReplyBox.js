@@ -6,6 +6,9 @@ function ReplyBox(props)
 {
     const [getCurrReply, setCurrReply] = useState("");
     const [countAnimate, setCountAnimate] = useState(false);
+    const makePost = () => {
+        console.log("posting")
+    }
     const updateReply = (e) =>{
         setCurrReply(e.target.value);
     }
@@ -38,7 +41,7 @@ function ReplyBox(props)
                                <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>
                            </div>
                            <div className="absolute bottom--1 right-1" >
-                               <PostButton/>
+                               <PostButton postClick={makePost}/>
                            </div>
                         </div>
                     </div>
@@ -66,7 +69,7 @@ function ReplyBox(props)
                                <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>
                            </div>
                            <div className="absolute bottom--1 right-8" >
-                               <PostButton/>
+                               <PostButton postClick={makePost}/>
                            </div>
                         </div>
                     </div>

@@ -20,14 +20,14 @@ function Avatar(props)
     let fileLocation = `/avatars/${props.fileName}`
     return (
         <div className="flex flex-col content-center items-center text-white box-border w-24 items-center justify-top flex-shrink-0">
-            <div className="flex relative bg-blue-500 h-24 w-full text-center items-center justify-center"
+            <div className="flex relative h-24 w-full text-center items-center justify-center"
                 onMouseEnter={() => changeVis()} onMouseLeave={() => changeVis()}>
                     
                     {avatarButtonVisible && 
 
                     <button type="file">
                         <img src="/res/change-avatar16.png" 
-                            className='absolute top-1 right-1'
+                            className='absolute top-1 right-1 bg-white rounded-md'
                             onClick={() => showFileDialog()}/>
                     </button>}
                 <input type="file" id="file-upload" hidden

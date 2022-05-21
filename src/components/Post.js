@@ -24,7 +24,7 @@ function Post(props)
       setIsReplying(value)
       setPostReplyId(key)
     }
-    let hasComments = post.Comments.length > 0;
+    let hasComments = (post.comments && post.comments.length > 0);
     const CommentsClicked = () =>
     {
         if (isExpanded || isReplying)
@@ -47,7 +47,8 @@ function Post(props)
     {
         return (
             <div className="flex content-center justify-center" style={{position:"relative",left:`${props.offset*2}px`,width:`${width }px`}}>
-            <ReplyBox userLoggedIn={props.userLoggedIn} offset={props.offset} isNewPostVisible={!isNewPostVisible} isReplying={isReplying} fixedBox={false} />
+            <ReplyBox parentPostID={post.PostId} userLoggedIn={props.userLoggedIn} offset={props.offset} 
+            isNewPostVisible={!isNewPostVisible} isReplying={isReplying} fixedBox={false} />
 
             </div>
         )
@@ -69,13 +70,13 @@ function Post(props)
                 }}>
                 <div className="flex content-center text-gray-50 h-fit min-w-4 bg-slate-700 border-8"
                     style={style}>
-                    <Avatar username={post.User.Username} fileName={post.User.Avatar}/>
+                    <Avatar username={post.username} fileName={post.avatar}/>
                     <div className="box-border  pb-10 relative bg-slate-500 w-full">
                         <div className="pl-3 font-sans bg-zinc-700 w-full">
-                            <PostDate date={post.TimeStamp}/>
+                            <PostDate date={post.timePosted}/>
                         </div>
                         <p className="p-5 font-sans">
-                            {post.Content}
+                            {post.content}
                         </p>
                         <div className="flex space-x-4 absolute bottom-0 right-0">
                             <ReplyButton replyClick={replyClicked} />

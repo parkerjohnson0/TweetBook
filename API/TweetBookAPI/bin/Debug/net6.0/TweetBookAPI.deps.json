@@ -2189,7 +2189,8 @@
         "dependencies": {
           "Dapper": "2.0.123",
           "MySql.Data": "8.0.29",
-          "MySqlConnector": "2.1.8"
+          "MySqlConnector": "2.1.8",
+          "System.Data.SqlClient": "4.8.3"
         },
         "runtime": {
           "DataAccess.dll": {}

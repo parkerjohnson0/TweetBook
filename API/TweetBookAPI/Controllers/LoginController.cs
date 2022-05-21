@@ -18,6 +18,11 @@ namespace TweetBookAPI
         {
             return 0;
         }
+        [HttpPost("register")]
+        public async Task<int> Register(string username, string password)
+        {
+            return await Queries.RegisterUser(username, password);
+        }
 
     }
 }
