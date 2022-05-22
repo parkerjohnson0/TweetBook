@@ -30,7 +30,7 @@ function Avatar(props)
                             className='absolute top-1 right-1 bg-white rounded-md'
                             onClick={() => showFileDialog()}/>
                     </button>}
-                <input type="file" id="file-upload" hidden
+                <input type="file" id="file-up==load" hidden
                     accept="image/png, image/jpeg"
                     onChange={() => fileSelected()}/>
                 <img src={fileLocation}/>

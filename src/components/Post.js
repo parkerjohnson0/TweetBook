@@ -37,7 +37,7 @@ function Post(props)
         setIsExpanded(!isExpanded);
 
     }
-    const replyClicked = () =>
+    const changeReplyState = () =>
     {
         props.updateReplying(!isReplying, post.postID);
         props.setIsNewPostVisible(isReplying);
@@ -47,7 +47,8 @@ function Post(props)
     {
         return (
             <div className="flex content-center justify-center" style={{position:"relative",left:`${props.offset*2}px`,width:`${width }px`}}>
-            <ReplyBox isGuest={props.loggedInUserIsGuest} parentPostID={post.postID} isLoggedIn={props.isLoggedIn} userLoggedIn={props.userLoggedIn} offset={props.offset}
+            <ReplyBox changeReplyState={changeReplyState}
+            getPosts={props.getPosts} isGuest={props.loggedInUserIsGuest} parentPostID={post.postID} isLoggedIn={props.isLoggedIn} userLoggedIn={props.userLoggedIn} offset={props.offset}
             isNewPostVisible={!isNewPostVisible} isReplying={isReplying} fixedBox={false} />
 
             </div>
@@ -79,7 +80,7 @@ function Post(props)
                             {post.content}
                         </p>
                         <div className="flex space-x-4 absolute bottom-0 right-0">
-                            <ReplyButton  replyClick={replyClicked} />
+                            <ReplyButton  changeReplyState={changeReplyState} />
                             {hasComments
                                 && <CommentsButton
                                     isCommentsExpanded={isExpanded}
@@ -97,7 +98,10 @@ function Post(props)
                 && props.post.comments.map((post, idx) =>
                 {
                     return (
-                        <Post  replyingPost={props.replyingPost} setIsNewPostVisible={props.setIsNewPostVisible}
+           //             getPosts={getPosts} replyingPost={postReplyId} isLoggedIn={isLoggedIn} userLoggedIn={userLoggedIn} loggedInUserIsGuest={isGuest} setIsNewPostVisible={setIsNewPostVisible}
+         // updateReplying={updateReplying} z={100} top={0} key={post.postID} post={post} offset={0}
+                        <Post getPosts={props.getPosts} isLoggedIn={props.isLoggedIn} userLoggedIn={props.userLoggedIn} loggedInUserIsGuest={props.loggedInUserIsGuest}
+                        replyingPost={props.replyingPost} setIsNewPostVisible={props.setIsNewPostVisible}
                             updateReplying={props.updateReplying}
                             z={props.z + 1} key={post.postID} post={post} offset={props.offset + 25} />
 

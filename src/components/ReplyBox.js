@@ -7,7 +7,6 @@ function ReplyBox(props)
     const [getCurrReply, setCurrReply] = useState("");
     const [countAnimate, setCountAnimate] = useState(false);
     const makePost = async () => {
-        console.log(props.parentPostID)
         let post = {
             "ParentPostID" : props.parentPostID,
             "Username" : props.userLoggedIn.Username,
@@ -22,7 +21,10 @@ function ReplyBox(props)
             body: JSON.stringify(post)
         })
         setCurrReply("")
-
+        if (props.isReplying){
+            props.changeReplyState();
+        }
+        props.getPosts();
     }
     const updateReply = (e) =>{
         setCurrReply(e.target.value);
@@ -43,7 +45,7 @@ function ReplyBox(props)
         if (props.isNewPostVisible)
         {
             return (
-                <div className="flex fixed bottom-16 z-100 h-48 bg-sky-400 rounded-lg"
+                <div className="flex fixed bottom-16 z-[1000] h-48 bg-sky-400 rounded-lg"
                     style={{ width: "600px" }}>
                     <div className="p-8">
                         <Avatar isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} blurAndShowLoading={props.blurAndShowLoading} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
@@ -51,7 +53,9 @@ function ReplyBox(props)
                     <div>
                        <div className="pt-8 relative">
                            <div>
-                                <textarea maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
+                                <textarea value={getCurrReply}
+                                 maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
+                                    
                                 </textarea>
                                <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>
                            </div>
@@ -71,7 +75,7 @@ function ReplyBox(props)
         {
             return (
                 <div className="flex align-items justify-center relative
-                    w-full z-100 h-48 bg-sky-400 rounded-lg"
+                    w-full z-[1000] h-48 bg-sky-400 rounded-lg"
                     style={{}}>
                     <div className="pt-8">
                         <Avatar isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
@@ -79,7 +83,8 @@ function ReplyBox(props)
                     <div>
                        <div className="p-8 relative">
                            <div>
-                                <textarea maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
+                                <textarea value={getCurrReply}
+                                maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
                                 </textarea>
                                <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>
                            </div>

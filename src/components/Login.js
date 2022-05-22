@@ -14,7 +14,8 @@ function Login(props) {
      }
    return (
         <div className="flex items-center justify-center fixed z-[1000] h-screen w-screen">
-            <div className="flex flex-col items-center justify-center bg-stone-200 h-64 w-96 rounded-lg">
+            <div className="flex flex-col items-center shadow-md
+                    justify-center bg-stone-200 h-64 w-96 rounded-lg">
                     <div className="flex  justify-center  w-2/3 h-1/3 mb-5">
                          <div className="flex justify-center items-center flex-col w-full space-y-4"  >
                               <p className="pr-3 py-2">

@@ -31,17 +31,17 @@ function App()
   useEffect(() =>
   {
 
+    getPosts();
+    setInterval(() =>
+    {
+      getPosts();
+    },5000)
+  },[])
+  function getPosts(){
     fetch("https://localhost:7073/posts")
       .then(response => response.json())
       .then(posts => setPosts(posts))
-    setInterval(() =>
-    {
-      const response = fetch("https://localhost:7073/posts")
-      .then(response => response.json())
-      .then(posts => setPosts(posts))
-    },1000)
-  },[])
-
+  }
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
   const [isNewPostVisible, setIsNewPostVisible] = useState(true);
@@ -81,11 +81,11 @@ function App()
       <div className={blurStyle}>
       {posts.map((post) =>
       {
-        return <Post  replyingPost={postReplyId} isLoggedIn={isLoggedIn} userLoggedIn={userLoggedIn} loggedInUserIsGuest={isGuest} setIsNewPostVisible={setIsNewPostVisible}
+        return <Post getPosts={getPosts} replyingPost={postReplyId} isLoggedIn={isLoggedIn} userLoggedIn={userLoggedIn} loggedInUserIsGuest={isGuest} setIsNewPostVisible={setIsNewPostVisible}
           updateReplying={updateReplying} z={100} top={0} key={post.postID} post={post} offset={0}/>
       })}
       </div>
-      {!shouldShowLogin() && isNewPostVisible && <ReplyBox isGuest={isGuest} parentPostID={null}
+      {!shouldShowLogin() && isNewPostVisible && <ReplyBox isGuest={isGuest} parentPostID={null} getPosts={getPosts}
           blurAndShowLoading={blurAndShowLoading} userLoggedIn={userLoggedIn} isLoggedIn={isLoggedIn}
         isNewPostVisible={isNewPostVisible} isReplying={isReplying} fixedBox={true} />}
       <div style={{height:"275px"}}>

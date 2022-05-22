@@ -8,7 +8,7 @@ function PostDate(props)
     {
         let date = new Date(props.date);
         let hour = date.getHours() % 12;
-        let ampm = hour >= 12 ? 'pm' : 'am'
+        let ampm = hour >= 12 ? 'am' : 'pm'
         let minutes = date.getMinutes()
         minutes = minutes < 10 ? '0' + minutes : minutes;
         hour = hour ? hour : 12;
