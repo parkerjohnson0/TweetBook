@@ -30,6 +30,10 @@ function App()
   let [posts, setPosts] = useState([]);
   useEffect(() =>
   {
+
+    fetch("https://localhost:7073/posts")
+      .then(response => response.json())
+      .then(posts => setPosts(posts))
     setInterval(() =>
     {
       const response = fetch("https://localhost:7073/posts")
@@ -44,13 +48,20 @@ function App()
   const [postReplyId, setPostReplyId] = useState(0);
   const [blurStyle,setBlurStyle] = useState("blur-sm");
   const [fileIsUploading, setFileIsUploading] = useState(false);
+    const [isGuest, setIsGuest] = useState(false);
   function shouldShowLogin(){
-    return isLoggedIn ? false : !checkCookieForLoginToken();
+    return (isLoggedIn || isGuest) ? false : !checkCookieForLoginToken();
   }
   function tryLogin(username,password){
     setBlurStyle("");
-    setIsLoggedIn(!isLoggedIn);
+    setIsLoggedIn(true);
+    setIsGuest(false);
   }
+    function loginGuest(){
+        setBlurStyle("");
+        setIsLoggedIn(false);
+        setIsGuest(true);
+    }
 
   const updateReplying = (value, key) =>
   {
@@ -66,14 +77,17 @@ function App()
       {fileIsUploading &&
         <FileUploadBar/>}
       {shouldShowLogin() &&
-        <Login tryLogin={tryLogin}/>}
+        <Login loginGuest={loginGuest} tryLogin={tryLogin}/>}
       <div className={blurStyle}>
       {posts.map((post) =>
       {
-        return <Post userLoggedIn={userLoggedIn} replyingPost={postReplyId} setIsNewPostVisible={setIsNewPostVisible} updateReplying={updateReplying} z={100} top={0} key={post.postId} post={post} offset={0}/>
+        return <Post  replyingPost={postReplyId} isLoggedIn={isLoggedIn} userLoggedIn={userLoggedIn} loggedInUserIsGuest={isGuest} setIsNewPostVisible={setIsNewPostVisible}
+          updateReplying={updateReplying} z={100} top={0} key={post.postID} post={post} offset={0}/>
       })}
       </div>
-      {!shouldShowLogin() && isNewPostVisible && <ReplyBox parentPostID={null} blurAndShowLoading={blurAndShowLoading} userLoggedIn={userLoggedIn} isNewPostVisible={isNewPostVisible} isReplying={isReplying} fixedBox={true} />}
+      {!shouldShowLogin() && isNewPostVisible && <ReplyBox isGuest={isGuest} parentPostID={null}
+          blurAndShowLoading={blurAndShowLoading} userLoggedIn={userLoggedIn} isLoggedIn={isLoggedIn}
+        isNewPostVisible={isNewPostVisible} isReplying={isReplying} fixedBox={true} />}
       <div style={{height:"275px"}}>
 
       </div>

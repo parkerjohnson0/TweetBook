@@ -1,5 +1,7 @@
-frontend 
+frontend
+    make posts refresh instantly after new post. reset content of reply box and char count.
 	make loading progess bar
+    return status codes for new posts
 	make replybox unsnap from attached post if scoll off screen
 	maybe give replybox an X icon somehow if it's attached
 backend

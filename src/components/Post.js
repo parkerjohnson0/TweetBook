@@ -30,7 +30,7 @@ function Post(props)
         if (isExpanded || isReplying)
         {
             setIsReplying(false);
-            props.updateReplying(false, post.PostId);
+            props.updateReplying(false, post.postID);
             props.setIsNewPostVisible(true);
 
         }
@@ -39,7 +39,7 @@ function Post(props)
     }
     const replyClicked = () =>
     {
-        props.updateReplying(!isReplying, post.PostId);
+        props.updateReplying(!isReplying, post.postID);
         props.setIsNewPostVisible(isReplying);
         setIsReplying(!isReplying);
     }
@@ -47,7 +47,7 @@ function Post(props)
     {
         return (
             <div className="flex content-center justify-center" style={{position:"relative",left:`${props.offset*2}px`,width:`${width }px`}}>
-            <ReplyBox parentPostID={post.postID} userLoggedIn={props.userLoggedIn} offset={props.offset}
+            <ReplyBox isGuest={props.loggedInUserIsGuest} parentPostID={post.postID} isLoggedIn={props.isLoggedIn} userLoggedIn={props.userLoggedIn} offset={props.offset}
             isNewPostVisible={!isNewPostVisible} isReplying={isReplying} fixedBox={false} />
 
             </div>
@@ -55,11 +55,11 @@ function Post(props)
     }
     const replyCheck = () =>
     {
-        if (isReplying && props.replyingPost != post.PostId)
+        if (isReplying && props.replyingPost != post.postID)
         {
             setIsReplying(!isReplying);
         }
-       return isReplying && props.replyingPost == post.PostId
+       return isReplying && props.replyingPost == post.postID
     }
     return (
         <div className="flex flex-col content-center justify-center w-full">
@@ -79,7 +79,7 @@ function Post(props)
                             {post.content}
                         </p>
                         <div className="flex space-x-4 absolute bottom-0 right-0">
-                            <ReplyButton replyClick={replyClicked} />
+                            <ReplyButton  replyClick={replyClicked} />
                             {hasComments
                                 && <CommentsButton
                                     isCommentsExpanded={isExpanded}
@@ -94,12 +94,12 @@ function Post(props)
             }
 
             {isExpanded
-                && props.post.Comments.map((post, idx) =>
+                && props.post.comments.map((post, idx) =>
                 {
                     return (
-                        <Post userLoggedIn={props.userLoggedIn} replyingPost={props.replyingPost} setIsNewPostVisible={props.setIsNewPostVisible}
+                        <Post  replyingPost={props.replyingPost} setIsNewPostVisible={props.setIsNewPostVisible}
                             updateReplying={props.updateReplying}
-                            z={props.z + 1} key={post.PostId} post={post} offset={props.offset + 25} />
+                            z={props.z + 1} key={post.postID} post={post} offset={props.offset + 25} />
 
 
                     )

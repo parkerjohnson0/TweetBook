@@ -22,7 +22,7 @@ namespace TweetBookAPI
            return posts;
         }
         [HttpPost]
-        public async Task Post(Post post)
+        public async Task Post([FromBody]Post post)
         {
              await Queries.MakePost(post);
         }

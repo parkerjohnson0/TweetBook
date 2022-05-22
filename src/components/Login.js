@@ -17,11 +17,11 @@ function Login(props) {
             <div className="flex flex-col items-center justify-center bg-stone-200 h-64 w-96 rounded-lg">
                     <div className="flex  justify-center  w-2/3 h-1/3 mb-5">
                          <div className="flex justify-center items-center flex-col w-full space-y-4"  >
-                              <p className="pr-2 py-2">
-                              Username:  
+                              <p className="pr-3 py-2">
+                              Username:
                               </p>
                               <p className="pr-2 py-2">
-                              Password:  
+                              Password:
                               </p>
                          </div>
                          <div className="flex flex-col justify-center space-y-4 items-center w-full " >
@@ -34,8 +34,11 @@ function Login(props) {
                          </div>
                     </div>
                     <LoginButton className="mt-3" tryLogin={tryLogin}/>
+                <button onClick={() => props.loginGuest()}>
+                    Continue as guest
+                </button>
                </div>
           </div>
-   ) 
+   )
 }
 export default Login
