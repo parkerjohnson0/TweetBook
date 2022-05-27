@@ -1,0 +1,48 @@
+using System.Data.SqlTypes;
+using Microsoft.AspNetCore.Mvc;
+using System.Web;
+using DataAccess;
+
+namespace TweetBookAPI;
+
+    [ApiController]
+[Route("api/[controller]")]
+public class AvatarController : Controller
+{
+    
+    private string fileDir = "/home/parker/Documents/Code/TweetBook/public/avatars/";
+    [HttpPost("upload")]
+    public async Task<IActionResult> Upload([FromForm] IFormFile file, [FromForm] int userID)
+    {
+        string ext = Path.GetExtension(file.FileName);
+        var fileName = Path.GetRandomFileName().Replace(".", "");
+        var filePath = fileDir + fileName + ext;
+        
+        using (var stream = System.IO.File.Create(filePath))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        await Queries.UpdateAvatar(fileName + ext,userID);
+        return Ok();
+    }
+
+    [HttpGet]
+    public async Task Download()
+    {
+        
+    }
+    private async Task<string> readFile(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return "";
+        }
+
+        using (var reader = new StreamReader(file.OpenReadStream()))
+        {
+            return await reader.ReadToEndAsync();
+
+        }
+    }
+}

@@ -37,6 +37,18 @@ function Post(props)
         setIsExpanded(!isExpanded);
 
     }
+    const autoExpand = () =>
+    {
+        if (isExpanded || isReplying)
+        {
+            setIsReplying(false);
+            props.updateReplying(false, post.postID);
+            props.setIsNewPostVisible(true);
+
+        }
+        setIsExpanded(!isExpanded);
+
+    }
     const changeReplyState = () =>
     {
         props.updateReplying(!isReplying, post.postID);
@@ -47,7 +59,7 @@ function Post(props)
     {
         return (
             <div className="flex content-center justify-center" style={{position:"relative",left:`${props.offset*2}px`,width:`${width }px`}}>
-            <ReplyBox changeReplyState={changeReplyState}
+            <ReplyBox setFileIsUploading={props.setFileIsUploading} userID={props.userLoggedIn.UserID} expandComments={autoExpand} changeReplyState={changeReplyState}
             getPosts={props.getPosts} isGuest={props.loggedInUserIsGuest} parentPostID={post.postID} isLoggedIn={props.isLoggedIn} userLoggedIn={props.userLoggedIn} offset={props.offset}
             isNewPostVisible={!isNewPostVisible} isReplying={isReplying} fixedBox={false} />
 
@@ -71,7 +83,7 @@ function Post(props)
                 }}>
                 <div className="flex content-center text-gray-50 h-fit min-w-4 bg-slate-700 border-8"
                     style={style}>
-                    <Avatar username={post.username} fileName={post.avatar}/>
+                    <Avatar setFileIsUploading={props.setFileIsUploading} userID={props.userLoggedIn.UserID} username={post.username} fileName={post.avatar}/>
                     <div className="box-border  pb-10 relative bg-slate-500 w-full">
                         <div className="pl-3 font-sans bg-zinc-700 w-full">
                             <PostDate date={post.timePosted}/>
@@ -100,10 +112,10 @@ function Post(props)
                     return (
            //             getPosts={getPosts} replyingPost={postReplyId} isLoggedIn={isLoggedIn} userLoggedIn={userLoggedIn} loggedInUserIsGuest={isGuest} setIsNewPostVisible={setIsNewPostVisible}
          // updateReplying={updateReplying} z={100} top={0} key={post.postID} post={post} offset={0}
-                        <Post getPosts={props.getPosts} isLoggedIn={props.isLoggedIn} userLoggedIn={props.userLoggedIn} loggedInUserIsGuest={props.loggedInUserIsGuest}
+                        <Post setFileIsUploading={props.setFileIsUploading} userID={props.userLoggedIn.UserID} expandComments={autoExpand} getPosts={props.getPosts} isLoggedIn={props.isLoggedIn} userLoggedIn={props.userLoggedIn} loggedInUserIsGuest={props.loggedInUserIsGuest}
                         replyingPost={props.replyingPost} setIsNewPostVisible={props.setIsNewPostVisible}
                             updateReplying={props.updateReplying}
-                            z={props.z + 1} key={post.postID} post={post} offset={props.offset + 25} />
+                            z={props.z + 1} key={post.postID} post={post} offset={props.offset + 10} />
 
 
                     )

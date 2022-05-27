@@ -3,17 +3,32 @@ import {React ,useState} from 'react';
 function Avatar(props)
 {
     function changeVis(){
+        if (props.isGuest) return;
         setAvatarButtonVisible(!avatarButtonVisible);
     }
     function showFileDialog(){
         document.getElementById("file-upload").click();
         console.log('file dialog opened')
     }
-    function fileSelected(){
+    async function  fileSelected(){
         let file = document.getElementById("file-upload")
         if (file.value != ""){
+
+            props.setFileIsUploading(true)
             console.log("file selected for upload")
             let blob = file.files[0];
+            console.log(blob)
+            let data = new FormData();
+            data.append("file",blob);
+            data.append("userID",props.userID );
+            const response = await fetch("https://localhost:7073/api/Avatar/upload",{
+                method : 'POST',
+                body: data
+            })
+                .then(()=>{
+                    props.setFileIsUploading(false)
+                });
+
         }
     }
     const [avatarButtonVisible, setAvatarButtonVisible] = useState(false);
@@ -30,7 +45,7 @@ function Avatar(props)
                             className='absolute top-1 right-1 bg-white rounded-md'
                             onClick={() => showFileDialog()}/>
                     </button>}
-                <input type="file" id="file-up==load" hidden
+                <input type="file" id="file-upload" hidden
                     accept="image/png, image/jpeg"
                     onChange={() => fileSelected()}/>
                 <img src={fileLocation}/>

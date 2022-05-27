@@ -4,8 +4,10 @@ using DataAccess;
 using System.Linq;
 namespace TweetBookAPI
 {
-    [Route("posts")]
-    public class PostController : Controller
+    
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PostsController : Controller
     {
         [HttpGet]
         [ActionName("Get")]
@@ -14,7 +16,7 @@ namespace TweetBookAPI
            var posts = await Queries.GetPosts();
            return posts;
         }
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         [ActionName("GetById")]
         public async Task<List<Post>> GetById([FromRoute] int id)
         {

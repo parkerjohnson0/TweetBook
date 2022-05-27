@@ -8,7 +8,7 @@ namespace DataAccess
 {
     public static class Queries
     {
-        public async static Task<List<User>> GetUsers()
+        public static async Task<List<User>> GetUsers()
         {
             var sql = "select * FROM Users;";
             IEnumerable<User> users = new List<User>();
@@ -20,9 +20,9 @@ namespace DataAccess
             return users.ToList();
         }
 
-        public async static Task<List<Post>> GetPosts()
+        public static async Task<List<Post>> GetPosts()
         {
-            var sql = "select * FROM Posts;";
+            var sql = "CALL sp_GetPosts(null);";
             IEnumerable<Post> posts = new List<Post>();
 
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
@@ -40,7 +40,16 @@ namespace DataAccess
             return posts.ToList();
         }
 
-        public async static Task<List<Post>> GetPosts(int id)
+        public static async Task UpdateAvatar(string fileLocation, int userID)
+        {
+            var sql = $"CALL sp_UpdateAvatar('{fileLocation}',{userID})";
+            using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
+            {
+                await connection.ExecuteAsync(sql);
+            }
+            
+        }
+        public static async Task<List<Post>> GetPosts(int id)
         {
             var sql = $"select * FROM Posts where @{id} = PostID AND @{id} = ParentPostID;";
             IEnumerable<Post> posts = new List<Post>();
@@ -60,7 +69,7 @@ namespace DataAccess
             return posts.ToList();
         }
 
-        public async static Task<int> LoginUser(string username, string password)
+        public static async Task<int> LoginUser(string username, string password)
         {
             var sql = $"CALL sp_CheckLogin({username},{password})";
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
@@ -69,7 +78,7 @@ namespace DataAccess
             }
         }
 
-        public async static Task<int> RegisterUser(string username, string password)
+        public static async Task<int> RegisterUser(string username, string password)
         {
             var sql = $"CALL sp_RegisterUser ('{username}','{password}');";
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
@@ -78,11 +87,11 @@ namespace DataAccess
             }
         }
 
-        public async static Task MakePost(Post post)
+        public static async Task MakePost(Post post)
         {
             string parentID = post.ParentPostID == null ? "null" : "'" + post.ParentPostID.ToString() + "'";
             //Console.WriteLine(post.Avatar, post.Content,post.PostID, parentID);
-            var sql = $"CALL sp_InsertPost ({parentID},'{post.Username}','{post.Content}','{post.Avatar}');";
+            var sql = $"CALL sp_InsertPost ({parentID},'{post.UserID}','{post.Content}');";
             Console.WriteLine(sql);
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {

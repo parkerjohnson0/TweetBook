@@ -4,7 +4,8 @@ using DataAccess;
 using System.Linq;
 namespace TweetBookAPI
 {
-    [Route("login")]
+    [ApiController]
+[Route("api/[controller]")]
     public class LoginController : Controller
     {
         [HttpGet]
@@ -12,11 +13,6 @@ namespace TweetBookAPI
         {
            var users = await Queries.GetUsers();
            return users;
-        }
-        [HttpPost]
-        public int Login()
-        {
-            return 0;
         }
         [HttpPost("register")]
         public async Task<int> Register(string username, string password)

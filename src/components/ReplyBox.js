@@ -9,11 +9,13 @@ function ReplyBox(props)
     const makePost = async () => {
         let post = {
             "ParentPostID" : props.parentPostID,
+            "UserID" : props.userID,
             "Username" : props.userLoggedIn.Username,
             "Content" : getCurrReply,
-            "Avatar" : props.userLoggedIn.Avatar
+            "Avatar" : props.userLoggedIn.Avatar,
+            "Comments" : []
         }
-        const response = await fetch("https://localhost:7073/posts",{
+        const response = await fetch("https://localhost:7073/api/Posts",{
             method : "POST",
             headers:{
                 'Content-Type': 'application/json'
@@ -25,6 +27,9 @@ function ReplyBox(props)
             props.changeReplyState();
         }
         props.getPosts();
+        if (props.isReplying){
+            props.expandComments();
+        }
     }
     const updateReply = (e) =>{
         setCurrReply(e.target.value);
@@ -40,6 +45,15 @@ function ReplyBox(props)
         }
 
     }
+    function onKeyPressed(e){
+        if (e.key == 'Enter'){
+            if (!e.shiftKey){
+                e.preventDefault();
+                makePost();
+            }
+        }
+
+    }
     const checkIfReplying = () =>
     {
         if (props.isNewPostVisible)
@@ -48,14 +62,14 @@ function ReplyBox(props)
                 <div className="flex fixed bottom-16 z-[1000] h-48 bg-sky-400 rounded-lg"
                     style={{ width: "600px" }}>
                     <div className="p-8">
-                        <Avatar isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} blurAndShowLoading={props.blurAndShowLoading} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
+                        <Avatar setFileIsUploading={props.setFileIsUploading} userID={props.userID} isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} blurAndShowLoading={props.blurAndShowLoading} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
                     </div>
                     <div>
                        <div className="pt-8 relative">
                            <div>
-                                <textarea value={getCurrReply}
+                               <textarea style={{resize:"none"}} value={getCurrReply} onKeyPress={onKeyPressed}
                                  maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
-                                    
+
                                 </textarea>
                                <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>
                            </div>
@@ -78,12 +92,12 @@ function ReplyBox(props)
                     w-full z-[1000] h-48 bg-sky-400 rounded-lg"
                     style={{}}>
                     <div className="pt-8">
-                        <Avatar isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
+                        <Avatar setFileIsUploading={props.setFileIsUploading} isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
                     </div>
                     <div>
                        <div className="p-8 relative">
                            <div>
-                                <textarea value={getCurrReply}
+                                <textarea style={{resize:"none"}} value={getCurrReply} onKeyPress={onKeyPressed}
                                 maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
                                 </textarea>
                                <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>
