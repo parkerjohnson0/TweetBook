@@ -1,6 +1,6 @@
 DELIMITER //
-CREATE OR REPLACE PROCEDURE sp_CheckUser(username varchar(50), password varchar(50))
+CREATE OR REPLACE PROCEDURE sp_CheckUser(user_name varchar(50), pass_word varchar(50))
 BEGIN
-    SELECT COUNT(*) FROM Users WHERE Username=username AND Password=password;
+    SELECT Username,Avatar, UserID FROM Users WHERE Username=user_name AND Password=pass_word;
 END //
 DELIMITER ;

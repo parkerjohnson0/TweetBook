@@ -24,7 +24,9 @@ public class AvatarController : Controller
         }
 
         await Queries.UpdateAvatar(fileName + ext,userID);
-        return Ok();
+        string loc = fileName + ext;
+        Console.WriteLine(loc);
+        return Ok(Json(loc));
     }
 
     [HttpGet]

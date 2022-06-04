@@ -1,8 +1,9 @@
 DELIMITER //
-CREATE OR REPLACE PROCEDURE sp_RegisterUser(IN username varchar(50), IN password varchar(50))
+CREATE OR REPLACE PROCEDURE sp_RegisterUser(IN user_name varchar(50), IN pass_word varchar(50))
 BEGIN
-    IF NOT EXISTS (SELECT * FROM Users WHERE Username=username AND Password=password) THEN
-        INSERT INTO Users (Username, Password) VALUES (username, password);
-    END IF;
+        INSERT INTO Users (Username, Password, Avatar) VALUES (user_name, pass_word, "guest.png");
+        SELECT UserID
+        FROM Users
+        WHERE Username=user_name;
 END; //
 DELIMITER ;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import LoginButton from './LoginButton'
 let username = "";
 let password = "";
@@ -16,7 +16,10 @@ function Login(props) {
         <div className="flex items-center justify-center fixed z-[1000] h-screen w-screen">
             <div className="relative flex flex-col items-center shadow-md
                     justify-center bg-stone-200 h-64 w-96 rounded-lg">
+
+                {props.showLoginError && <p className="absolute top-4 text-red-600">Username or password is invalid!</p>}
                     <div className="flex  justify-center  w-2/3 h-1/2 ">
+
                          <div className="flex justify-center items-center flex-col w-full space-y-4"  >
                               <p className="pr-4 py-2">
                               Username:
@@ -35,10 +38,12 @@ function Login(props) {
                          </div>
                     </div>
                     <LoginButton className="mb-3" tryLogin={tryLogin}/>
-                <button className="absolute right-2 bottom-2 text-m underline text-blue-500 hover:text-blue-700 visited:text-purple-600" onClick={() => props.loginGuest()}>
+                <button className="absolute right-2 bottom-2 text-m underline text-blue-500 hover:text-blue-700
+                    visited:text-purple-600" onClick={() => props.showRegister()}>
                     Create Account
                 </button>
-                <button className="absolute left-2 bottom-2 text-m underline text-blue-500 hover:text-blue-700 visited:text-purple-600" onClick={() => props.loginGuest()}>
+                <button className="absolute left-2 bottom-2 text-m underline text-blue-500 hover:text-blue-700
+                    visited:text-purple-600" onClick={() => props.loginGuest()}>
                     Guest Login
                 </button>
                </div>

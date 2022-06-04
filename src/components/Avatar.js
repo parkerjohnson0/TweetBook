@@ -24,9 +24,11 @@ function Avatar(props)
             const response = await fetch("https://localhost:7073/api/Avatar/upload",{
                 method : 'POST',
                 body: data
-            })
-                .then(()=>{
-                    props.setFileIsUploading(false)
+            }).then(response => response.json())
+              .then(fileLoc =>{
+                    props.setFileIsUploading(false);
+                    console.log(fileLoc.value);
+                    props.updateLoggedInUserAvatar(fileLoc.value);
                 });
 
         }
@@ -34,24 +36,29 @@ function Avatar(props)
     const [avatarButtonVisible, setAvatarButtonVisible] = useState(false);
     let fileLocation = `/avatars/${props.fileName}`
     return (
-        <div className="flex flex-col content-center items-center text-white box-border w-24 items-center justify-top flex-shrink-0">
-            <div className="flex relative h-24 w-full text-center items-center justify-center"
+        <div className="flex flex-col content-center items-center text-white box-border w-24 items-center justify-top flex-shrink-0 border-2 border-slate-500 shadow-xl">
+            <div className="flex relative h-24 w-full text-center items-center justify-center  bg-slate-200"
                 onMouseEnter={() => changeVis()} onMouseLeave={() => changeVis()}>
 
                     {(props.isLoggedIn || props.isGuest) && avatarButtonVisible &&
 
                     <button type="file">
-                        <img src="/res/change-avatar16.png"
-                            className='absolute top-1 right-1 bg-white rounded-md'
+                        <img src="/res/change-avatar16.png" alt="avatar"
+                            className="absolute top-1 right-1 bg-white rounded-md"
                             onClick={() => showFileDialog()}/>
                     </button>}
                 <input type="file" id="file-upload" hidden
                     accept="image/png, image/jpeg"
                     onChange={() => fileSelected()}/>
-                <img src={fileLocation}/>
+                <img style={{
+                   width:"100%",
+                    height:"100%",
+                    objectFit: "cover",
+                    overflow: "hidden"
+                }} alt="Avatar" src={fileLocation}/>
             </div>
-            <div className="flex justify-center items-center bg-zinc-700 w-full h-8 w-full text-center ">
-                {props.username}
+            <div className="pt-1 inline-block h-8 text-s text-center align-bottom truncate bg-zinc-700 w-full border-t-2 border-slate-500">
+                 {props.username}
             </div>
         </div>
    )

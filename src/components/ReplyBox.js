@@ -13,7 +13,8 @@ function ReplyBox(props)
             "Username" : props.userLoggedIn.Username,
             "Content" : getCurrReply,
             "Avatar" : props.userLoggedIn.Avatar,
-            "Comments" : []
+            "Comments" : [],
+            "User": props.userLoggedIn
         }
         const response = await fetch("https://localhost:7073/api/Posts",{
             method : "POST",
@@ -62,7 +63,7 @@ function ReplyBox(props)
                 <div className="flex fixed bottom-16 z-[1000] h-48 bg-sky-400 rounded-lg"
                     style={{ width: "600px" }}>
                     <div className="p-8">
-                        <Avatar setFileIsUploading={props.setFileIsUploading} userID={props.userID} isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} blurAndShowLoading={props.blurAndShowLoading} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
+                        <Avatar updateLoggedInUserAvatar={props.updateLoggedInUserAvatar} setFileIsUploading={props.setFileIsUploading} userID={props.userID} isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} blurAndShowLoading={props.blurAndShowLoading} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
                     </div>
                     <div>
                        <div className="pt-8 relative">
@@ -92,7 +93,7 @@ function ReplyBox(props)
                     w-full z-[1000] h-48 bg-sky-400 rounded-lg"
                     style={{}}>
                     <div className="pt-8">
-                        <Avatar setFileIsUploading={props.setFileIsUploading} isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
+                        <Avatar updateLoggedInUserAvatar={props.updateLoggedInUserAvatar} setFileIsUploading={props.setFileIsUploading} isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
                     </div>
                     <div>
                        <div className="p-8 relative">

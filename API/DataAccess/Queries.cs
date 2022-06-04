@@ -1,5 +1,6 @@
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
 using Dapper;
 using DataAccess.Models;
 using MySql.Data.MySqlClient;
@@ -69,12 +70,13 @@ namespace DataAccess
             return posts.ToList();
         }
 
-        public static async Task<int> LoginUser(string username, string password)
+        public static async Task<User> LoginUser(string username, string password)
         {
-            var sql = $"CALL sp_CheckLogin({username},{password})";
+            var sql = $"CALL sp_CheckUser('{username}','{password}')";
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {
-                return await connection.QuerySingleAsync<int>(sql);
+                var result = await connection.QuerySingleAsync<User>(sql);
+                return result;
             }
         }
 
@@ -83,7 +85,18 @@ namespace DataAccess
             var sql = $"CALL sp_RegisterUser ('{username}','{password}');";
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {
-                return await connection.QuerySingleAsync<int>(sql);
+                try
+                {
+                    var result = await connection.QuerySingleAsync<int>(sql);
+                    Console.WriteLine(result);
+                    return result;
+                }
+                catch (Exception e)
+                {
+                   Console.WriteLine(e.Message);
+                   return -1;
+                   
+                }
             }
         }
 

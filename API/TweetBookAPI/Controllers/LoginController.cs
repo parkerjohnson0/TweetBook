@@ -14,10 +14,24 @@ namespace TweetBookAPI
            var users = await Queries.GetUsers();
            return users;
         }
-        [HttpPost("register")]
-        public async Task<int> Register(string username, string password)
+        [HttpPost("Register")]
+        public async Task<int> Register([FromBody] User user)
         {
-            return await Queries.RegisterUser(username, password);
+            return await Queries.RegisterUser(user.Username, user.Password);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] User user)
+        {
+            try
+            {
+                var result = await Queries.LoginUser(user.Username, user.Password);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
         }
 
     }

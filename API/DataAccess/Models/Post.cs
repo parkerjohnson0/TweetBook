@@ -1,4 +1,6 @@
 
+using DataAccess.Models;
+
 public class Post{
 
     public int PostID {get;set;}
@@ -9,4 +11,5 @@ public class Post{
     public string Avatar {get;set;}
     public DateTime TimePosted {get;set;}
     public List<Post> Comments { get; set; }
+    public User User { get; set; }
 }
