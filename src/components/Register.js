@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import RegisterButton from './RegisterButton';
 let username = "";
 let password = "";
+let confPassword = "";
 function Register(props){
 
      function updateUsername(e){
@@ -9,10 +10,21 @@ function Register(props){
      }
      function updatePassword(e){
           password = e.target.value;
+         console.log(password);
      }
+    function updateConfirmPassword(e){
+        confPassword = e.target.value;
+        console.log(confPassword);
+    }
      function tryRegister(){
+         if (password === confPassword){
           props.tryRegister(username, password);
+         }
+         else{
+            setShowPasswordsMismatch(true);
+         }
      }
+    const [showPasswordsMismatch, setShowPasswordsMismatch] = useState(false);
    return (
         <div className="flex items-center justify-center fixed z-[1000] h-screen w-screen">
             <div className="relative flex flex-col items-center shadow-md
@@ -36,9 +48,11 @@ function Register(props){
                               <input onChange={(e) => updatePassword(e)}
                               id="password"
                               className = "shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:bg-white focus:border-blue-500" type="password" placeholder="******************" />
-                              <input onChange={(e) => updatePassword(e)}
+                              <input onChange={(e) => updateConfirmPassword(e)}
                               id="password"
                               className = "shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:bg-white focus:border-blue-500" type="password" placeholder="******************" />
+                             {showPasswordsMismatch && <img className="absolute right-3 bottom-20 w-8"
+                             src="/res/passwordMismatch.png" alt="mismatch"/>}
                          </div>
                     </div>
                     <RegisterButton tryRegister={tryRegister} className="mt-3"/>

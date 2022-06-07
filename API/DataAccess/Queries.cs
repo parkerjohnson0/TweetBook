@@ -1,6 +1,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Net;
+using System.Security.Cryptography;
 using Dapper;
 using DataAccess.Models;
 using MySql.Data.MySqlClient;
@@ -72,22 +73,53 @@ namespace DataAccess
 
         public static async Task<User> LoginUser(string username, string password)
         {
-            var sql = $"CALL sp_CheckUser('{username}','{password}')";
+            var sql = $"CALL sp_CheckUser('{username}')";
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {
-                var result = await connection.QuerySingleAsync<User>(sql);
-                return result;
+                User result = await connection.QuerySingleAsync<User>(sql);
+                byte[] salt = Convert.FromBase64String(result.Salt);
+                byte[] key = Convert.FromBase64String(result.Hash);
+                using (var deriveBytes = new Rfc2898DeriveBytes(password,salt))
+                {
+                    byte[] newKey = deriveBytes.GetBytes(20);
+                    if (newKey.SequenceEqual(key))
+                    {
+                        return new User()
+                        {
+                            Avatar = result.Avatar,
+                            Username = result.Username,
+                            UserID = result.UserID
+                        };
+                    }
+                }
             }
+
+            return null;
         }
 
         public static async Task<int> RegisterUser(string username, string password)
         {
-            var sql = $"CALL sp_RegisterUser ('{username}','{password}');";
+            string salt = null;
+            string key = null;
+            using (var deriveBytes = new Rfc2898DeriveBytes(password, 20))
+            {
+                salt = Convert.ToBase64String(deriveBytes.Salt);
+                 key = Convert.ToBase64String(deriveBytes.GetBytes(20));
+            }
+
+            var dict = new Dictionary<string, object>
+            {
+                { "@Username", username },
+                { "@Salt", salt },
+                { "@Hash", key }
+            };
+            var parameters = new DynamicParameters(dict);
+            var sql = "CALL sp_RegisterUser (@Username, @Salt, @Hash);";
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {
                 try
                 {
-                    var result = await connection.QuerySingleAsync<int>(sql);
+                    var result = await connection.QuerySingleAsync<int>(sql,parameters);
                     Console.WriteLine(result);
                     return result;
                 }
