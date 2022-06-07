@@ -34,7 +34,7 @@ function App()
     },5000)
   },[])
   function getPosts(){
-    fetch("https://localhost:7073/api/Posts")
+    fetch("http://www.parkerjohnson-projects/tweetbookapi/Posts")
       .then(response => response.json())
       .then(posts => setPosts(posts))
   }
@@ -58,7 +58,7 @@ function App()
     return (isLoggedIn || isGuest || isRegistering) ? false : !checkCookieForLoginToken();
   }
   async function tryLogin(username,password){
-    const response = await fetch("https://localhost:7073/api/Login",{
+    const response = await fetch("http://www.parkerjohnson-projects/tweetbookapi/Login",{
         method : "POST",
         headers:{
             'Content-Type': 'application/json'
@@ -94,7 +94,7 @@ function App()
       });
   }
   async function tryRegister(username,password){
-    const response = await fetch("https://localhost:7073/api/Login/Register",{
+    const response = await fetch("http://www.parkerjohnson-projects/tweetbookapi/Login/Register",{
         method : "POST",
         headers:{
             'Content-Type': 'application/json'

@@ -6,7 +6,7 @@ using DataAccess;
 namespace TweetBookAPI;
 
     [ApiController]
-[Route("api/[controller]")]
+[Route("tweetbookapi/[controller]")]
 public class AvatarController : Controller
 {
     

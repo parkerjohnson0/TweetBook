@@ -6,7 +6,7 @@ namespace TweetBookAPI
 {
     
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("tweetbookapi/[controller]")]
     public class PostsController : Controller
     {
         [HttpGet]

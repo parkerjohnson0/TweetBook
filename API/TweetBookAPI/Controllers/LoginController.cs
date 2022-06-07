@@ -5,7 +5,7 @@ using System.Linq;
 namespace TweetBookAPI
 {
     [ApiController]
-[Route("api/[controller]")]
+[Route("tweetbookapi/[controller]")]
     public class LoginController : Controller
     {
         [HttpGet]
