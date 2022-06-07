@@ -21,7 +21,7 @@ function Avatar(props)
             let data = new FormData();
             data.append("file",blob);
             data.append("userID",props.userID );
-            const response = await fetch("http://www.parkerjohnson-projects/tweetbookapi/Avatar/upload",{
+            const response = await fetch("http://www.parkerjohnson-projects.com/tweetbookapi/Avatar/upload",{
                 method : 'POST',
                 body: data
             }).then(response => response.json())
