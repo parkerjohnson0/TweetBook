@@ -9,15 +9,16 @@ namespace TweetBookAPI;
 [Route("tweetbookapi/[controller]")]
 public class AvatarController : Controller
 {
-    
-    private string fileDir = "/home/parker/Documents/Code/TweetBook/public/avatars/";
+
+    //private string fileDir = "/home/parker/Documents/Code/TweetBook/public/avatars/";
+    private string fileDir = "var/www/tweetbook/html/avatars/";
     [HttpPost("upload")]
     public async Task<IActionResult> Upload([FromForm] IFormFile file, [FromForm] int userID)
     {
         string ext = Path.GetExtension(file.FileName);
         var fileName = Path.GetRandomFileName().Replace(".", "");
         var filePath = fileDir + fileName + ext;
-        
+
         using (var stream = System.IO.File.Create(filePath))
         {
             await file.CopyToAsync(stream);
@@ -32,7 +33,7 @@ public class AvatarController : Controller
     [HttpGet]
     public async Task Download()
     {
-        
+
     }
     private async Task<string> readFile(IFormFile file)
     {
