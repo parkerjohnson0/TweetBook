@@ -16,7 +16,7 @@ function ReplyBox(props)
             "Comments" : [],
             "User": props.userLoggedIn
         }
-        const response = await fetch("http://www.parkerjohnson-projects.com/Posts",{
+        const response = await fetch("http://www.parkerjohnson-projects.com/tweetbookapi/Posts",{
             method : "POST",
             headers:{
                 'Content-Type': 'application/json'
