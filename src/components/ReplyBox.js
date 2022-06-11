@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import Avatar from "./Avatar";
 import PostButton from "./PostButton"
 import CharacterCount from "./CharacterCount"
+import config from "../config"
 function ReplyBox(props)
 {
     const [getCurrReply, setCurrReply] = useState("");
@@ -16,7 +17,7 @@ function ReplyBox(props)
             "Comments" : [],
             "User": props.userLoggedIn
         }
-        const response = await fetch("http://www.parkerjohnson-projects.com/tweetbookapi/Posts",{
+        const response = await fetch(config.API() + "/tweetbookapi/Posts",{
             method : "POST",
             headers:{
                 'Content-Type': 'application/json'
@@ -27,10 +28,10 @@ function ReplyBox(props)
         if (props.isReplying){
             props.changeReplyState();
         }
-        props.getPosts();
         if (props.isReplying){
             props.expandComments();
         }
+        props.getPosts();
     }
     const updateReply = (e) =>{
         setCurrReply(e.target.value);
@@ -68,7 +69,7 @@ function ReplyBox(props)
                     <div>
                        <div className="pt-8 relative">
                            <div>
-                               <textarea style={{resize:"none"}} value={getCurrReply} onKeyPress={onKeyPressed}
+                               <textarea className="p-1" style={{resize:"none"}} value={getCurrReply} onKeyPress={onKeyPressed}
                                  maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
 
                                 </textarea>
@@ -98,7 +99,7 @@ function ReplyBox(props)
                     <div>
                        <div className="p-8 relative">
                            <div>
-                                <textarea style={{resize:"none"}} value={getCurrReply} onKeyPress={onKeyPressed}
+                                <textarea className="p-1" style={{resize:"none"}} value={getCurrReply} onKeyPress={onKeyPressed}
                                 maxLength="140" onKeyDown={unregisterAnimation} onKeyUp={animationListener} onInput={updateReply} rows="4" cols="35">
                                 </textarea>
                                <CharacterCount countAnimate={countAnimate} charCount={getCurrReply.length}/>

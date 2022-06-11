@@ -3,10 +3,10 @@
         "launch - netcoredbg":{
             "adapter": "netcoredbg",
             "configuration" : {
-                "request" : "launch",
+                "request" : "attach",
                 "program" : "${workspaceRoot}/bin/Debug/net6.0/TweetBookAPI.dll",
                 "args" : [],
-                "stopAtEntry" : true,
+                "stopAtEntry" : false,
                 "cwd" : "${workspaceRoot}",
                 "env" : {}
             }

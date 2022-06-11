@@ -6,11 +6,20 @@ import ReplyButton from './components/ReplyButton.js';
 import Register from './components/Register';
 import Login from './components/Login';
 import FileUploadBar from './components/FileUploadBar.js';
+import config from './config'
 function App()
 {
-  function checkCookieForLoginToken(){
-    return false;
+  async function checkCookieForLoginToken(){
+      if (document.cookie){
+          let userID = document.cookie.split('; ').find(row => row.startsWith("UserID=")).split("=")[1];
+          console.log(userID);
+            await tryLoginFromCookie(userID);
+      }
+      setCookieChecked(true);
   }
+    useEffect(()=>{
+        checkCookieForLoginToken();
+    }, [])
   // let posts = [{"ParentPostId":null,"PostId":30,"Content":"test","TimeStamp":"2022-01-01T19:38:54","Comments":[{"ParentPostId":30,"PostId":39,"Content":"surely","TimeStamp":"2022-01-05T22:00:55","Comments": [{
 	// 			"ParentPostId": 39,
 	// 			"PostId": 60,
@@ -34,7 +43,7 @@ function App()
     },5000)
   },[])
   function getPosts(){
-    fetch("http://www.parkerjohnson-projects.com/tweetbookapi/Posts")
+    fetch(config.API() + "/tweetbookapi/Posts")
       .then(response => response.json())
       .then(posts => setPosts(posts))
   }
@@ -54,11 +63,51 @@ function App()
             "Avatar":"guest.png"
         }
     );
+    const [cookieChecked, setCookieChecked] = useState(false);
   function shouldShowLogin(){
-    return (isLoggedIn || isGuest || isRegistering) ? false : !checkCookieForLoginToken();
+    return !(isLoggedIn || isGuest || isRegistering);
+  }
+  async function tryLoginFromCookie(UserID){
+      const response = await fetch(config.API() + "/tweetbookapi/Login/LoginByToken",{
+        method : "POST",
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            UserID: UserID
+        })
+    }).then(response => {
+        if (!response.ok){
+            throw new Error(response.status);
+        }
+        return response.json();
+    })
+        .then(data =>{
+              if (data !== -1){
+                setBlurStyle("");
+                setIsLoggedIn(true);
+                setIsGuest(false);
+                  setUserLoggedIn({
+                      "UserID": data.userID,
+                      "Username": data.username,
+                      "Avatar": data.avatar
+                  });
+                setIsRegistering(false);
+                setBlurStyle("");
+                setIsLoggedIn(true);
+                setIsGuest(false);
+                  let date = new Date();
+                date.setTime(date.getTime() + (4 * 60 * 60 * 1000));
+                document.cookie = "UserID" + "=" + data.userID + "; expires=" + date.toUTCString() + "; path=/";
+                  console.log(document.cookie);
+              }
+          })
+      .catch(error =>{
+          setShowLoginError(true);
+      });
   }
   async function tryLogin(username,password){
-    const response = await fetch("http://www.parkerjohnson-projects.com/tweetbookapi/Login",{
+      const response = await fetch(config.API() + "/tweetbookapi/Login",{
         method : "POST",
         headers:{
             'Content-Type': 'application/json'
@@ -87,6 +136,10 @@ function App()
                 setBlurStyle("");
                 setIsLoggedIn(true);
                 setIsGuest(false);
+                  let date = new Date();
+                date.setTime(date.getTime() + (4 * 60 * 60 * 1000));
+                document.cookie = "UserID" + "=" + data.userID + "; expires=" + date.toUTCString() + "; path=/";
+                  console.log(document.cookie);
               }
           })
       .catch(error =>{
@@ -94,7 +147,7 @@ function App()
       });
   }
   async function tryRegister(username,password){
-    const response = await fetch("http://www.parkerjohnson-projects.com/tweetbookapi/Login/Register",{
+    const response = await fetch(config.API() + "/tweetbookapi/Login/Register",{
         method : "POST",
         headers:{
             'Content-Type': 'application/json'
@@ -155,7 +208,7 @@ function App()
         <FileUploadBar/>}
         {isRegistering &&
             <Register showLogin={showLogin} tryRegister={tryRegister}/>}
-      {shouldShowLogin() &&
+      {shouldShowLogin() && cookieChecked &&
         <Login showRegister={showRegister} showLoginError={showLoginError} loginGuest={loginGuest} tryLogin={tryLogin}/>}
       <div className={blurStyle}>
       {posts.map((post) =>
@@ -164,7 +217,7 @@ function App()
           updateReplying={updateReplying} z={100} top={0} key={post.postID} post={post} offset={0}/>
       })}
       </div>
-      {!shouldShowLogin() && !isRegistering && isNewPostVisible && <ReplyBox updateLoggedInUserAvatar={updateLoggedInUserAvatar} updateAvatar={updateLoggedInUserAvatar} setFileIsUploading={blurAndShowLoading} userID={userLoggedIn.UserID} isGuest={isGuest} parentPostID={null} getPosts={getPosts}
+      {!shouldShowLogin() && !isRegistering && isNewPostVisible && cookieChecked && <ReplyBox updateLoggedInUserAvatar={updateLoggedInUserAvatar} updateAvatar={updateLoggedInUserAvatar} setFileIsUploading={blurAndShowLoading} userID={userLoggedIn.UserID} isGuest={isGuest} parentPostID={null} getPosts={getPosts}
           blurAndShowLoading={blurAndShowLoading} userLoggedIn={userLoggedIn} isLoggedIn={isLoggedIn}
         isNewPostVisible={isNewPostVisible} isReplying={isReplying} fixedBox={true} />}
       <div style={{height:"275px"}}>

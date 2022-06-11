@@ -1,5 +1,7 @@
 {
-  "name": "tweetbook",
+    "apiStringDev":"https//:localhost:7073",
+    "apiStringDep":"http://www.parkerjohnson-projects.com",
+    "name": "tweetbook",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

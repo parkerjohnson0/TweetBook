@@ -19,7 +19,19 @@ namespace TweetBookAPI
         {
             return await Queries.RegisterUser(user.Username, user.Password);
         }
-
+        [HttpPost("LoginByToken")]
+        public async Task<IActionResult> LoginByToken([FromBody] User  user)
+        {
+            try
+            {
+                var result = await Queries.LoginUserByToken(user.UserID);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized();
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] User user)
         {

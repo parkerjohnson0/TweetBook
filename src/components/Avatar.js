@@ -1,4 +1,5 @@
 import {React ,useState} from 'react';
+import config from '../config'
 
 function Avatar(props)
 {
@@ -21,7 +22,7 @@ function Avatar(props)
             let data = new FormData();
             data.append("file",blob);
             data.append("userID",props.userID );
-            const response = await fetch("http://www.parkerjohnson-projects.com/tweetbookapi/Avatar/upload",{
+            const response = await fetch(config.API() + "/tweetbookapi/Avatar/upload",{
                 method : 'POST',
                 body: data
             }).then(response => response.json())

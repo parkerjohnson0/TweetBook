@@ -1,9 +1,10 @@
 frontend
+    making new child post of parent where parent has a sibling behaves unexpectedly. gonna be a nightmare
 	make post times more specific if recently posted
-    return status codes for new posts
 	make replybox unsnap from attached post if scoll off screen
 	maybe give replybox an X icon somehow if it's attached
 backend
 	avatar uploads
 	everything
 	figure out logins
+    insert post needs to be parameterized. im a dumb

@@ -4,6 +4,7 @@ import PostDate from "./PostDate";
 import Avatar from "./Avatar";
 import ReplyBox from "./ReplyBox";
 import React, { useState } from "react"
+import config from "../config"
 import {motion, AnimatePresence} from "framer-motion"
 function Post(props)
 {
@@ -11,6 +12,7 @@ function Post(props)
     const [isReplying, setIsReplying] = useState(false);
     const [isNewPostVisible, setIsNewPostVisible] = useState(true);
     const [postReplyId, setPostReplyId] = useState(0);
+    const [deleteButtonVis, setDeleteButtonVis] = useState(false);
     let post = props.post;
     let width = 800 - props.offset * 2;
     let style = {
@@ -37,6 +39,11 @@ function Post(props)
         setIsExpanded(!isExpanded);
 
     }
+    function changeDeleteVis(){
+        if (post.userID === props.userLoggedIn.UserID){
+            setDeleteButtonVis(!deleteButtonVis);
+        }
+    }
     const autoExpand = () =>
     {
         if (isExpanded || isReplying)
@@ -46,7 +53,7 @@ function Post(props)
             props.setIsNewPostVisible(true);
 
         }
-        setIsExpanded(!isExpanded);
+        setIsExpanded(true);
 
     }
     const changeReplyState = () =>
@@ -74,6 +81,23 @@ function Post(props)
         }
        return isReplying && props.replyingPost == post.postID
     }
+    async function deletePost(postID){
+
+        const response = await fetch(config.API() + `/tweetbookapi/Posts/${postID}`,{
+            method : "POST",
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(response =>{
+            if (!response.ok){
+                throw new Error(response.status);
+            }
+        }).then(data =>{
+            if (data < 1){//dont think this should be possible but IDK
+                throw new Error("Post was selected for deletion but was not deleted for some reason")
+            }
+        })
+    }
     return (
         <div className="flex flex-col content-center justify-center w-full">
             <div className="flex content-center justify-center"
@@ -84,6 +108,16 @@ function Post(props)
                 <div className="flex content-center text-gray-50 h-fit min-w-4 bg-slate-700 border-8"
                     style={style}>
                     <Avatar updateLoggedInUserAvatar={props.updateLoggedInUserAvatar} setFileIsUploading={props.setFileIsUploading} userID={props.userLoggedIn.UserID} username={post.username} fileName={post.avatar}/>
+                    <div className="absolute h-8 w-8"
+                        onMouseEnter= {()=> changeDeleteVis(props.p)}
+                    onMouseLeave= {()=> changeDeleteVis()}>
+                    {deleteButtonVis &&
+                    <button onClick={()=> deletePost(post.postID)}>
+                            <img  src="/res/delete_post.png" alt="delete post"
+                               />
+                        </button>
+                    }
+                    </div>
                     <div className="box-border  pb-10 relative bg-slate-500 w-full">
                         <div className="pl-3 font-sans bg-zinc-700 w-full">
                             <PostDate date={post.timePosted}/>

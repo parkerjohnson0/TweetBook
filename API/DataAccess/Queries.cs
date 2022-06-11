@@ -50,27 +50,82 @@ namespace DataAccess
                 await connection.ExecuteAsync(sql);
             }
             
+            
         }
-        public static async Task<List<Post>> GetPosts(int id)
+
+        public static async Task<List<Post>> GetParentPost(int? id)
         {
-            var sql = $"select * FROM Posts where @{id} = PostID AND @{id} = ParentPostID;";
+            var dict = new Dictionary<string, object>
+            {
+                { "@PostID", id },
+            };
+            var parameters = new DynamicParameters(dict);
+            var sql = "CALL sp_GetPost(@PostID);";
+            IEnumerable<Post> post = new List<Post>();
+
+            using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
+            {
+                post = await connection.QueryAsync<Post>(sql, parameters);
+            }
+
+            return post.ToList();
+
+        }
+        public static async Task<List<Post>> GetChildPosts(int? id)
+        {
+            var dict = new Dictionary<string, object>
+            {
+                { "@PostID", id },
+            };
+            var parameters = new DynamicParameters(dict);
+            var sql = "CALL sp_GetPosts(@PostID);";
             IEnumerable<Post> posts = new List<Post>();
 
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {
-                posts = await connection.QueryAsync<Post>(sql);
+                posts = await connection.QueryAsync<Post>(sql, parameters);
             }
 
+            List<Post> postList = posts.ToList();
             foreach (Post post in posts)
             {
-                post.Comments = posts.Where(x => x.ParentPostID == post.PostID).ToList();
+                postList.AddRange(await GetChildPosts(post.PostID));
             }
+            foreach (Post post in postList)
+            {
+                post.Comments = postList.Where(x => x.ParentPostID == post.PostID).ToList();
+                //post.Comments = post.Comments.Where(x => x.ParentPostID != post.PostID).ToList();
+            }
+            return postList.Where(x => x.ParentPostID == id).ToList();
+            //var sql = $"select * FROM Posts where @{id} = PostID AND @{id} = ParentPostID;";
+            //IEnumerable<Post> posts = new List<Post>();
 
-            posts = posts.Where(x => x.ParentPostID == null);
+            //using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
+            //{
+            //    posts = await connection.QueryAsync<Post>(sql);
+            //}
 
-            return posts.ToList();
+
+            //posts = posts.Where(x => x.ParentPostID == null);
+
+            //return posts.ToList();
         }
 
+
+        public static async Task<User> LoginUserByToken(int? UserID)
+        {
+            var sql = $"CALL sp_CheckUserByToken('{UserID}')";
+            using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
+            {
+                User result = await connection.QuerySingleAsync<User>(sql);
+                        return new User()
+                        {
+                            Avatar = result.Avatar,
+                            Username = result.Username,
+                            UserID = result.UserID
+                        };
+            }
+        }
         public static async Task<User> LoginUser(string username, string password)
         {
             var sql = $"CALL sp_CheckUser('{username}')";
@@ -141,6 +196,21 @@ namespace DataAccess
             using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
             {
                 await connection.ExecuteAsync(sql);
+            }
+        }
+
+        public static async Task<int> DeletePost(string postId)
+        {
+            var dict = new Dictionary<string, object>
+            {
+                { "@PostID", postId },
+            };
+            var parameters = new DynamicParameters(dict);
+            var sql = "CALL sp_DeletePost(@PostID)";
+            using (IDbConnection connection = new MySqlConnection(Config.CONNECTION_STRING))
+            {
+                var result =  await connection.ExecuteAsync(sql,parameters);
+                return result;
             }
         }
     }
