@@ -96,6 +96,9 @@ function Post(props)
             if (data < 1){//dont think this should be possible but IDK
                 throw new Error("Post was selected for deletion but was not deleted for some reason")
             }
+            else {
+                props.getPosts();
+            }
         })
     }
     return (
@@ -146,7 +149,7 @@ function Post(props)
                     return (
            //             getPosts={getPosts} replyingPost={postReplyId} isLoggedIn={isLoggedIn} userLoggedIn={userLoggedIn} loggedInUserIsGuest={isGuest} setIsNewPostVisible={setIsNewPostVisible}
          // updateReplying={updateReplying} z={100} top={0} key={post.postID} post={post} offset={0}
-                        <Post updateLoggedInUserAvatar={props.updateLoggedInUserAvatar} setFileIsUploading={props.setFileIsUploading} userID={props.userLoggedIn.UserID} expandComments={autoExpand} getPosts={props.getPosts} isLoggedIn={props.isLoggedIn} userLoggedIn={props.userLoggedIn} loggedInUserIsGuest={props.loggedInUserIsGuest}
+                        <Post deletePost={props.deletePost} updateLoggedInUserAvatar={props.updateLoggedInUserAvatar} setFileIsUploading={props.setFileIsUploading} userID={props.userLoggedIn.UserID} expandComments={autoExpand} getPosts={props.getPosts} isLoggedIn={props.isLoggedIn} userLoggedIn={props.userLoggedIn} loggedInUserIsGuest={props.loggedInUserIsGuest}
                         replyingPost={props.replyingPost} setIsNewPostVisible={props.setIsNewPostVisible}
                             updateReplying={props.updateReplying}
                             z={props.z + 1} key={post.postID} post={post} offset={props.offset + 10} />

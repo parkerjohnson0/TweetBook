@@ -40,9 +40,10 @@ function App()
     setInterval(() =>
     {
       getPosts();
-    },5000)
+    },15000)
   },[])
   function getPosts(){
+    console.log('get posts');
     fetch(config.API() + "/tweetbookapi/Posts")
       .then(response => response.json())
       .then(posts => setPosts(posts))

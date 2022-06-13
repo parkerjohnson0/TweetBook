@@ -86,17 +86,28 @@ namespace DataAccess
                 posts = await connection.QueryAsync<Post>(sql, parameters);
             }
 
-            List<Post> postList = posts.ToList();
+            if (id is not null)
+            {
+                    List<Post> postList = posts.ToList();
+                    foreach (Post post in posts)
+                    {
+                        postList.AddRange(await GetChildPosts(post.PostID));
+                    }
+                    foreach (Post post in postList)
+                    {
+                        post.Comments = postList.Where(x => x.ParentPostID == post.PostID).ToList();
+                        //post.Comments = post.Comments.Where(x => x.ParentPostID != post.PostID).ToList();
+                    }
+                    return postList.Where(x => x.ParentPostID == id).ToList();
+            }
+
             foreach (Post post in posts)
             {
-                postList.AddRange(await GetChildPosts(post.PostID));
-            }
-            foreach (Post post in postList)
-            {
-                post.Comments = postList.Where(x => x.ParentPostID == post.PostID).ToList();
+                post.Comments = posts.Where(x => x.ParentPostID == post.PostID).ToList();
                 //post.Comments = post.Comments.Where(x => x.ParentPostID != post.PostID).ToList();
             }
-            return postList.Where(x => x.ParentPostID == id).ToList();
+            return posts.Where(x => x.ParentPostID == null).ToList();
+
             //var sql = $"select * FROM Posts where @{id} = PostID AND @{id} = ParentPostID;";
             //IEnumerable<Post> posts = new List<Post>();
 

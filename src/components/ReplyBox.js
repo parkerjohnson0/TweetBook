@@ -61,9 +61,9 @@ function ReplyBox(props)
         if (props.isNewPostVisible)
         {
             return (
-                <div className="flex fixed bottom-16 z-[1000] h-48 bg-sky-400 rounded-lg"
+                <div className="flex justify-center fixed bottom-16 z-[1000] h-48 bg-sky-400 rounded-lg"
                     style={{ width: "600px" }}>
-                    <div className="p-8">
+                    <div className="pt-8 pr-8">
                         <Avatar updateLoggedInUserAvatar={props.updateLoggedInUserAvatar} setFileIsUploading={props.setFileIsUploading} userID={props.userID} isGuest={props.isGuest} isLoggedIn={props.isLoggedIn} blurAndShowLoading={props.blurAndShowLoading} username={props.userLoggedIn.Username} fileName={props.userLoggedIn.Avatar}/>
                     </div>
                     <div>

@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/parker/Documents/Code/TweetBook/API/TweetBookAPI/TweetBookAPI.csproj": {}
+    "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\TweetBookAPI\\TweetBookAPI.csproj": {}
   },
   "projects": {
-    "/home/parker/Documents/Code/TweetBook/API/DataAccess/DataAccess.csproj": {
+    "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\DataAccess\\DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/parker/Documents/Code/TweetBook/API/DataAccess/DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\DataAccess\\DataAccess.csproj",
         "projectName": "DataAccess",
-        "projectPath": "/home/parker/Documents/Code/TweetBook/API/DataAccess/DataAccess.csproj",
-        "packagesPath": "/home/parker/.nuget/packages/",
-        "outputPath": "/home/parker/Documents/Code/TweetBook/API/DataAccess/obj/",
+        "projectPath": "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\DataAccess\\DataAccess.csproj",
+        "packagesPath": "C:\\Users\\carve\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/parker/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\carve\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -70,34 +72,36 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/parker/Documents/Code/TweetBook/API/TweetBookAPI/TweetBookAPI.csproj": {
+    "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\TweetBookAPI\\TweetBookAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/parker/Documents/Code/TweetBook/API/TweetBookAPI/TweetBookAPI.csproj",
+        "projectUniqueName": "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\TweetBookAPI\\TweetBookAPI.csproj",
         "projectName": "TweetBookAPI",
-        "projectPath": "/home/parker/Documents/Code/TweetBook/API/TweetBookAPI/TweetBookAPI.csproj",
-        "packagesPath": "/home/parker/.nuget/packages/",
-        "outputPath": "/home/parker/Documents/Code/TweetBook/API/TweetBookAPI/obj/",
+        "projectPath": "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\TweetBookAPI\\TweetBookAPI.csproj",
+        "packagesPath": "C:\\Users\\carve\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\TweetBookAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/parker/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\carve\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/home/parker/Documents/Code/TweetBook/API/DataAccess/DataAccess.csproj": {
-                "projectPath": "/home/parker/Documents/Code/TweetBook/API/DataAccess/DataAccess.csproj"
+              "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\DataAccess\\DataAccess.csproj": {
+                "projectPath": "C:\\Users\\carve\\OneDrive\\Documents\\Code\\TweetBook\\API\\DataAccess\\DataAccess.csproj"
               }
             }
           }
@@ -143,7 +147,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }
