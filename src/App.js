@@ -12,7 +12,6 @@ function App()
   async function checkCookieForLoginToken(){
       if (document.cookie){
           let userID = document.cookie.split('; ').find(row => row.startsWith("UserID=")).split("=")[1];
-          console.log(userID);
             await tryLoginFromCookie(userID);
       }
       setCookieChecked(true);
@@ -20,34 +19,18 @@ function App()
     useEffect(()=>{
         checkCookieForLoginToken();
     }, [])
-  // let posts = [{"ParentPostId":null,"PostId":30,"Content":"test","TimeStamp":"2022-01-01T19:38:54","Comments":[{"ParentPostId":30,"PostId":39,"Content":"surely","TimeStamp":"2022-01-05T22:00:55","Comments": [{
-	// 			"ParentPostId": 39,
-	// 			"PostId": 60,
-	// 			"Content": "yo",
-	// 			"TimeStamp": "2022-01-05T22:21:50",
-	// 			"Comments": [],
-	// 			"User": {
-	// 				"UserId": 1,
-	// 				"Username": "Guest",
-	// 				"Avatar": "guest.png"
-	// 			}
-	// 		}],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":30,"PostId":40,"Content":"yo","TimeStamp":"2022-01-05T22:21:50","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}}],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":31,"Content":"ayy","TimeStamp":"2022-01-01T19:40:11","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":32,"Content":"asdfgdfg","TimeStamp":"2022-01-01T19:45:04","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":34,"Content":"aadfdh","TimeStamp":"2022-01-01T20:10:19","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":35,"Content":"test","TimeStamp":"2022-01-01T20:57:09","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":36,"Content":"asdfasdf","TimeStamp":"2022-01-02T10:09:00","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":37,"Content":"can you see this","TimeStamp":"2022-01-05T21:53:35","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":38,"Content":"reply","TimeStamp":"2022-01-05T21:55:57","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":41,"Content":"test","TimeStamp":"2022-02-22T15:07:11","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":42,"Content":"still works ","TimeStamp":"2022-02-22T15:07:37","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}},{"ParentPostId":null,"PostId":43,"Content":"hey","TimeStamp":"2022-03-21T10:16:46","Comments":[],"User":{"UserId":1,"Username":"Guest","Avatar":"guest.png"}}]
   let [posts, setPosts] = useState([]);
-  useEffect(() =>
-  {
-
-    getPosts();
-    setInterval(() =>
-    {
-      getPosts();
-    },15000)
-  },[])
-  function getPosts(){
-    console.log('get posts');
-    fetch(config.API() + "/tweetbookapi/Posts")
+  function getPosts(postID){
+    let postQuery = "";
+      if (postIdParam || postID){
+            postQuery += "?id=" + (postID || postIdParam);
+      }
+    console.log('get posts ' + postID);
+    fetch(config.API() + "/tweetbookapi/Posts" + postQuery)
       .then(response => response.json())
       .then(posts => setPosts(posts))
   }
+    const [registerError, setRegisterError] = useState("");
     const [showLoginError, setShowLoginError] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
@@ -64,7 +47,31 @@ function App()
             "Avatar":"guest.png"
         }
     );
+    const [postIdParam, setPostIdParam] = useState(null);
     const [cookieChecked, setCookieChecked] = useState(false);
+    const [returnButton,setReturnButton] = useState({
+        enabled: false,
+        previousID: null
+    });
+      useEffect(() =>
+      {
+
+        getPosts();
+        let timer = setInterval(() =>
+        {
+          getPosts();
+        },15000);
+        return clearInterval(timer);
+      },[postIdParam])
+    function setPostsString(postID){
+        setReturnButton({
+            enabled:(postID == null ? false : true ),
+            previousID:postIdParam,
+            currentID: postID
+        })
+        setPostIdParam(postID);
+        //getPosts();
+    }
   function shouldShowLogin(){
     return !(isLoggedIn || isGuest || isRegistering);
   }
@@ -100,7 +107,6 @@ function App()
                   let date = new Date();
                 date.setTime(date.getTime() + (4 * 60 * 60 * 1000));
                 document.cookie = "UserID" + "=" + data.userID + "; expires=" + date.toUTCString() + "; path=/";
-                  console.log(document.cookie);
               }
           })
       .catch(error =>{
@@ -140,7 +146,6 @@ function App()
                   let date = new Date();
                 date.setTime(date.getTime() + (4 * 60 * 60 * 1000));
                 document.cookie = "UserID" + "=" + data.userID + "; expires=" + date.toUTCString() + "; path=/";
-                  console.log(document.cookie);
               }
           })
       .catch(error =>{
@@ -159,16 +164,20 @@ function App()
         })
     }).then(response => response.json())
           .then(data =>{
-              if (data !== -1){
+              let resp = data.value;
+              if (resp.userID && resp.userID !== -1){
                 setBlurStyle("");
                 setIsLoggedIn(true);
                 setIsGuest(false);
                   setUserLoggedIn({
-                      "UserID": data,
+                      "UserID": resp.userID,
                       "Username": username,
                       "Avatar": "guest.png"
                   });
                 setIsRegistering(false);
+              }
+              else{
+                  setRegisterError(resp.message);
               }
           });
 
@@ -208,13 +217,13 @@ function App()
       {fileIsUploading &&
         <FileUploadBar/>}
         {isRegistering &&
-            <Register showLogin={showLogin} tryRegister={tryRegister}/>}
+            <Register setRegisterError={setRegisterError} registerError={registerError} showLogin={showLogin} tryRegister={tryRegister}/>}
       {shouldShowLogin() && cookieChecked &&
-        <Login showRegister={showRegister} showLoginError={showLoginError} loginGuest={loginGuest} tryLogin={tryLogin}/>}
+        <Login showRegister={showRegister} setShowLoginError={setShowLoginError} showLoginError={showLoginError} loginGuest={loginGuest} tryLogin={tryLogin}/>}
       <div className={blurStyle}>
       {posts.map((post) =>
       {
-        return <Post updateLoggedInUserAvatar={updateLoggedInUserAvatar} setFileIsUploading={blurAndShowLoading} getPosts={getPosts} replyingPost={postReplyId} isLoggedIn={isLoggedIn} userLoggedIn={userLoggedIn} loggedInUserIsGuest={isGuest} setIsNewPostVisible={setIsNewPostVisible}
+          return <Post returnButton={returnButton} setPostsString={setPostsString} nestLevel={0} isChild={false} position={"relative"} updateLoggedInUserAvatar={updateLoggedInUserAvatar} setFileIsUploading={blurAndShowLoading} getPosts={getPosts} replyingPost={postReplyId} isLoggedIn={isLoggedIn} userLoggedIn={userLoggedIn} loggedInUserIsGuest={isGuest} setIsNewPostVisible={setIsNewPostVisible}
           updateReplying={updateReplying} z={100} top={0} key={post.postID} post={post} offset={0}/>
       })}
       </div>

@@ -15,9 +15,21 @@ namespace TweetBookAPI
            return users;
         }
         [HttpPost("Register")]
-        public async Task<int> Register([FromBody] User user)
+        public async Task<IActionResult> Register([FromBody] User user)
         {
-            return await Queries.RegisterUser(user.Username, user.Password);
+            RegisterResult response = ValidateInfo(user);
+            if (String.IsNullOrEmpty(response.Message))
+            {
+
+                 response.UserID = await Queries.RegisterUser(user.Username, user.Password);
+            }
+
+            if (response.UserID == -1)
+            {
+                response.Message = "User already exists";
+            }
+
+            return Ok(Json(response));
         }
         [HttpPost("LoginByToken")]
         public async Task<IActionResult> LoginByToken([FromBody] User  user)
@@ -44,6 +56,20 @@ namespace TweetBookAPI
             {
                 return Unauthorized();
             }
+        }
+
+        private RegisterResult ValidateInfo(User user)
+        {
+            RegisterResult res = new RegisterResult();
+            int passLength = 7;
+            string msg = "";
+
+            if (user.Password.Length < passLength)
+            {
+                msg = "Password must be at least 7 characters";
+            }
+            res.Message = msg;
+            return res;
         }
 
     }

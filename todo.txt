@@ -1,10 +1,7 @@
 frontend
-    making new child post of parent where parent has a sibling behaves unexpectedly. gonna be a nightmare
-	make post times more specific if recently posted
+    make queried postID as state so refreshes will not reset to root posts
 	make replybox unsnap from attached post if scoll off screen
 	maybe give replybox an X icon somehow if it's attached
 backend
-	avatar uploads
-	everything
-	figure out logins
-    insert post needs to be parameterized. im a dumb
+    validate information on registering. if invalid, respond with message why
+    insert post needs to be parameterized. im a dumb. THIS MAY BE FIXED NEED TO MAKE SURE THOUGH

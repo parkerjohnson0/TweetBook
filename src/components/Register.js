@@ -6,15 +6,29 @@ let confPassword = "";
 function Register(props){
 
      function updateUsername(e){
+        if (isError()){
+            setErrorText("");
+            props.setRegisterError("");
+        }
           username = e.target.value;
      }
      function updatePassword(e){
+        if (isError()){
+            setErrorText("");
+            props.setRegisterError("");
+        }
           password = e.target.value;
-         console.log(password);
      }
     function updateConfirmPassword(e){
         confPassword = e.target.value;
-        console.log(confPassword);
+        if (isError()){
+            setErrorText("");
+            props.setRegisterError("");
+        }
+        if (showPasswordsMismatch){
+            setShowPasswordsMismatch(false);
+            setErrorText("");
+        }
     }
      function tryRegister(){
          if (password === confPassword){
@@ -22,14 +36,26 @@ function Register(props){
          }
          else{
             setShowPasswordsMismatch(true);
+            setErrorText("Passwords must match")
          }
      }
+    function isError(){
+        return errorText || showPasswordsMismatch || props.registerError.length > 0;
+    }
+    function onKeyPress(e){
+        if (e.key == 'Enter'){
+           props.tryRegister(username,password);
+        }
+    }
+    const [errorText, setErrorText] = useState("");
     const [showPasswordsMismatch, setShowPasswordsMismatch] = useState(false);
    return (
         <div className="flex items-center justify-center fixed z-[1000] h-screen w-screen">
             <div className="relative flex flex-col items-center shadow-md
-                    justify-center bg-stone-200 h-64 w-[500px] rounded-lg">
-                    <div className="flex justify-center  w-full h-2/3 ">
+                    justify-center bg-stone-200  w-[500px] rounded-lg p-5">
+                {(props.registerError || errorText) &&
+                    <p className="text-red-600 ">{errorText || props.registerError}</p>}
+                    <div className="flex justify-center w-full h-2/3 mt-5">
                          <div className="flex justify-center items-end flex-col w-1/2 space-y-4"  >
                               <p className="pr-2 py-2">
                               Username:
@@ -42,16 +68,19 @@ function Register(props){
                               </p>
                          </div>
                          <div className="flex flex-col justify-center space-y-4 items-start w-full " >
-                             <input maxLength="12" onChange={(e) => updateUsername(e)}
+                             <input onKeyPress={onKeyPress}
+                                 maxLength="12" onChange={(e) => updateUsername(e)}
                               id="username"
                               className = "shadow appearance-none border  rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:bg-white focus:border-blue-500"  type="text"/>
-                              <input onChange={(e) => updatePassword(e)}
+                              <input onKeyPress={onKeyPress}
+                                  onChange={(e) => updatePassword(e)}
                               id="password"
                               className = "shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:bg-white focus:border-blue-500" type="password" placeholder="******************" />
-                              <input onChange={(e) => updateConfirmPassword(e)}
+                              <input onKeyPress={onKeyPress}
+                                  onChange={(e) => updateConfirmPassword(e)}
                               id="password"
                               className = "shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:bg-white focus:border-blue-500" type="password" placeholder="******************" />
-                             {showPasswordsMismatch && <img className="absolute right-3 bottom-20 w-8"
+                             {showPasswordsMismatch && <img className="absolute right-6 bottom-[80px] w-5"
                              src="/res/passwordMismatch.png" alt="mismatch"/>}
                          </div>
                     </div>

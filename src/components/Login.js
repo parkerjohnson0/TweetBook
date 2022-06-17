@@ -5,13 +5,24 @@ let password = "";
 function Login(props) {
      function updateUsername(e){
           username = e.target.value;
+         if (props.showLoginError){
+            props.setShowLoginError(false);
+         }
      }
      function updatePassword(e){
           password = e.target.value;
+         if (props.showLoginError){
+            props.setShowLoginError(false);
+         }
      }
      function tryLogin(){
           props.tryLogin(username, password);
      }
+    function onKeyPressed(e){
+        if (e.key == 'Enter'){
+            tryLogin();
+        }
+    }
    return (
         <div className="flex items-center justify-center fixed z-[1000] h-screen w-screen">
             <div className="relative flex flex-col items-center shadow-md
@@ -29,10 +40,10 @@ function Login(props) {
                               </p>
                          </div>
                          <div className="flex flex-col justify-center space-y-4 items-center w-full " >
-                              <input  onChange={(e) => updateUsername(e)}
+                             <input onKeyPress={onKeyPressed}  onChange={(e) => updateUsername(e)}
                               id="username"
                               className = "shadow appearance-none border  rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:bg-white focus:border-blue-500"  type="text"/>
-                              <input onChange={(e) => updatePassword(e)}
+                              <input onKeyPress={onKeyPressed} onChange={(e) => updatePassword(e)}
                               id="password"
                               className = "shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:bg-white focus:border-blue-500" type="password" placeholder="******************" />
                          </div>
