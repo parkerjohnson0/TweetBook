@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/parker/Documents/Code/TweetBook/API/DataAccess/DataAccess.csproj": {}
+    "C:\\Users\\peppe\\Documents\\code-stuff\\TweetBook\\API\\DataAccess\\DataAccess.csproj": {}
   },
   "projects": {
-    "/home/parker/Documents/Code/TweetBook/API/DataAccess/DataAccess.csproj": {
+    "C:\\Users\\peppe\\Documents\\code-stuff\\TweetBook\\API\\DataAccess\\DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/parker/Documents/Code/TweetBook/API/DataAccess/DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\peppe\\Documents\\code-stuff\\TweetBook\\API\\DataAccess\\DataAccess.csproj",
         "projectName": "DataAccess",
-        "projectPath": "/home/parker/Documents/Code/TweetBook/API/DataAccess/DataAccess.csproj",
-        "packagesPath": "/home/parker/.nuget/packages/",
-        "outputPath": "/home/parker/Documents/Code/TweetBook/API/DataAccess/obj/",
+        "projectPath": "C:\\Users\\peppe\\Documents\\code-stuff\\TweetBook\\API\\DataAccess\\DataAccess.csproj",
+        "packagesPath": "C:\\Users\\peppe\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\peppe\\Documents\\code-stuff\\TweetBook\\API\\DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/parker/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\peppe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -70,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
